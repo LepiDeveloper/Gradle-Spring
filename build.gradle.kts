@@ -7,6 +7,10 @@ application {
     mainClass = "be.kdg.programming3.spaceMissions.StartApplication"
 }
 
+tasks.getByName("run", JavaExec::class) {
+    standardInput = System.`in`
+}
+
 group = "be.kdg.programing3_resit"
 version = "1.0-SNAPSHOT"
 

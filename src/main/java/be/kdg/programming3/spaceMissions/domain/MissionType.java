@@ -1,0 +1,12 @@
+package be.kdg.programming3.spaceMissions.domain;
+
+public enum MissionType {
+
+    SATELLITE_DEPLOYMENT, CREWED_MISSION,
+    CARGO_RESUPPLY,INTERPLANETARY_EXPLORATION,
+    LUNAR_EXPLORATION, MILITARY,
+    TECHNOLOGY_DEMONSTRATION
+
+
+
+}
