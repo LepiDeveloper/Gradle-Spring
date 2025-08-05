@@ -26,6 +26,11 @@ public class LaunchSite {
         this.missions = missions;
     }
 
+    // No-arg constructor required by JPA
+    public LaunchSite() {
+
+    }
+
     // Getters and Setters
 
 

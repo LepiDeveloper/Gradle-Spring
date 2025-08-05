@@ -2,16 +2,27 @@ package be.kdg.programming3.spaceMissions;
 
 import be.kdg.programming3.spaceMissions.presentation.Menu;
 import be.kdg.programming3.spaceMissions.repository.DataFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 
-public class StartApplication {
+@SpringBootApplication
+public class StartApplication implements CommandLineRunner {
 
-    public static void main(String[] args) {
-        DataFactory.seed();
+    private final Menu menu;
 
-        Menu menu = new Menu();
-        menu.displayMenu();
-
+    public StartApplication(Menu menu) {
+        this.menu = menu;
     }
 
+    public static void main(String[] args) {
+        SpringApplication.run(StartApplication.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        menu.displayMenu();
+    }
 
 }

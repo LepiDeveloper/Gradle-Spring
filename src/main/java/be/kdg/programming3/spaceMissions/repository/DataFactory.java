@@ -4,12 +4,15 @@ import be.kdg.programming3.spaceMissions.domain.LaunchSite;
 import be.kdg.programming3.spaceMissions.domain.Mission;
 import be.kdg.programming3.spaceMissions.domain.MissionType;
 import be.kdg.programming3.spaceMissions.domain.Rocket;
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class DataFactory {
 
     // Static fields to hold the lists of Rockets and Missions
@@ -18,8 +21,9 @@ public class DataFactory {
     public static List<LaunchSite> launchSites = new ArrayList<>();
 
 
-    // Static method to seed data into the lists
-    public static void seed() {
+    // Static method to seed data into the lists, but I needed to get rid of the static part for the PostConstruct to work.
+    @PostConstruct
+    public void seed() {
         // Create launch site
         LaunchSite kennedySpaceCenter = new LaunchSite(1, "Kennedy Space Center",
                 "Florida, USA");
