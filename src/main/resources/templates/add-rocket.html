@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Rockets</title>
+</head>
+<body>
+
+<h1>Add a New Rocket</h1>
+
+<!-- Form to add a new rocket -->
+<form action="#" th:action="@{/rockets/add}" th:object="${rocket}" method="post">
+  <label for="name">Name</label>
+  <input type="text" id="name" name="rocketName" th:field="*{rocketName}" required>
+
+  <label for="launchCapacity">Launch Capacity</label>
+  <input type="number" id="launchCapacity" name="launchCapacity" th:field="*{launchCapacity}" required>
+
+  <label for="manufacturer">Manufacturer</label>
+  <input type="text" id="manufacturer" name="manufacturer" th:field="*{manufacturer}" required>
+
+  <input type="submit" value="Add Rocket">
+</form>
+
+</body>
+</html>

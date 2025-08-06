@@ -29,6 +29,9 @@ public class Rocket {
         this.missions = missions;
     }
 
+    // No-arg constructor
+    public Rocket() {}
+
 
     // Getters and Setters
 

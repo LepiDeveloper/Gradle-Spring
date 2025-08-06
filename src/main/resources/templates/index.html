@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Space Missions</title>
+</head>
+<body>
+<h1>SPACE MISSIONS</h1>
+<h2>
+  <!-- Link to the missions page -->
+  <a th:href="@{/missions}">Missions</a>
+</h2>
+
+<h2>
+  <!-- Link to the rockets page -->
+  <a th:href="@{/rockets}">Rockets</a>
+</h2>
+
+<h2>
+  <!-- Link to the add-missions page -->
+  <a th:href="@{/rockets/add}">Add Rocket</a>
+</h2>
+
+<h2>
+  <!-- Link to the add-rockets page -->
+  <a th:href="@{/missions/add}">Add Mission</a>
+</h2>
+
+</body>
+</html>

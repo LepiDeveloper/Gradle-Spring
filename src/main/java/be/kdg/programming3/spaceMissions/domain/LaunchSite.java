@@ -26,7 +26,7 @@ public class LaunchSite {
         this.missions = missions;
     }
 
-    // No-arg constructor required by JPA
+    // No-arg constructor
     public LaunchSite() {
 
     }

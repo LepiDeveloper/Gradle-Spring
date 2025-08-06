@@ -44,6 +44,11 @@ public class Mission {
         this.launchSite = launchSite;
     }
 
+    // No-arg constructor
+    public Mission() {
+
+    }
+
     // Getters and Setters
 
     public int getMissionId() {
