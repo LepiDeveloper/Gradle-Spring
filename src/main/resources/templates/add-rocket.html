@@ -18,6 +18,10 @@
     <div class="mb-3">
       <label for="rocketName" class="form-label" th:text="#{rocket.name}">Name</label>
       <input type="text" id="rocketName" th:field="*{rocketName}" class="form-control" required>
+      <!-- Server-side error message -->
+      <div class="text-danger" th:if="${#fields.hasErrors('rocketName')}"
+           th:errors="*{rocketName}"></div>
+      <!-- Client-side error message -->
       <div class="invalid-feedback">
         Please provide a rocket name.
       </div>
@@ -26,6 +30,10 @@
     <div class="mb-3">
       <label for="launchCapacity" class="form-label" th:text="#{rocket.launchCapacity}">Launch Capacity</label>
       <input type="number" id="launchCapacity" th:field="*{launchCapacity}" class="form-control" required>
+      <!-- Server-side error message -->
+      <div class="text-danger" th:if="${#fields.hasErrors('launchCapacity')}"
+           th:errors="*{launchCapacity}"></div>
+      <!-- Client-side error message -->
       <div class="invalid-feedback">
         Please provide a launch capacity.
       </div>
@@ -34,6 +42,10 @@
     <div class="mb-3">
       <label for="manufacturer" class="form-label" th:text="#{rocket.manufacturer}">Manufacturer</label>
       <input type="text" id="manufacturer" th:field="*{manufacturer}" class="form-control" required>
+      <!-- Server-side error message -->
+      <div class="text-danger" th:if="${#fields.hasErrors('manufacturer')}"
+           th:errors="*{manufacturer}"></div>
+      <!-- Client-side error message -->
       <div class="invalid-feedback">
         Please provide a manufacturer.
       </div>

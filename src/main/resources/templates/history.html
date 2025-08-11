@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <title>History</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">
+  </script>
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-5">
+  <h2>Session History</h2>
+  <ul>
+    <li th:each="entry : ${history}" th:text="${entry}"></li>
+  </ul>
+
+</div>
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
+</body>
+</html>

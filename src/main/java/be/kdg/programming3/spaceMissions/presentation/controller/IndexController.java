@@ -1,14 +1,22 @@
 package be.kdg.programming3.spaceMissions.presentation.controller;
 
+import be.kdg.programming3.spaceMissions.presentation.controller.httpSession.SessionHistory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class IndexController {
 
-    @GetMapping("/") // Handles requests to the root URL
+    private final SessionHistory sessionHistory;
+
+    public IndexController(SessionHistory sessionHistory) {
+        this.sessionHistory = sessionHistory;
+    }
+
+    @GetMapping("/")
     public String index() {
-        return "index"; // Returns the index.html view
+        sessionHistory.addPageVisit("Main Page");
+        return "index";
     }
 
 

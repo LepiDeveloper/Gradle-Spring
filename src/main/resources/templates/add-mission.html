@@ -25,6 +25,10 @@
     <div class="mb-3">
       <label for="name" class="form-label" th:text="#{mission.name}">Mission Name</label>
       <input type="text" id="name" th:field="*{missionName}" class="form-control" required>
+      <!-- Server-side error message -->
+      <div class="text-danger" th:if="${#fields.hasErrors('missionName')}"
+           th:errors="*{missionName}"></div>
+      <!-- Client-side error message -->
       <div class="invalid-feedback">
         Please provide a mission name.
       </div>
@@ -34,6 +38,10 @@
     <div class="mb-3">
       <label for="missionObjective" class="form-label" th:text="#{mission.objective}">Mission Objective</label>
       <input type="text" id="missionObjective" th:field="*{missionObjective}" class="form-control" required>
+      <!-- Server-side error message -->
+      <div class="text-danger" th:if="${#fields.hasErrors('missionObjective')}"
+           th:errors="*{missionObjective}"></div>
+      <!-- Client-side error message -->
       <div class="invalid-feedback">
         Please enter the mission objective.
       </div>
@@ -43,12 +51,19 @@
     <div class="mb-3">
       <label for="launchDate" class="form-label" th:text="#{mission.launchDate}">Launch Date</label>
       <input type="date" id="launchDate" th:field="*{launchDate}" class="form-control">
+      <!-- Server-side error message -->
+      <div class="text-danger" th:if="${#fields.hasErrors('launchDate')}"
+           th:errors="*{launchDate}"></div>
     </div>
 
     <!-- Crew On Board -->
     <div class="mb-3">
       <label for="crewOnBoard" class="form-label" th:text="#{mission.crewOnBoard}">Crew On Board</label>
-      <input type="number" id="crewOnBoard" th:field="*{crewOnboard}" class="form-control" required min="0">
+      <input type="number" id="crewOnBoard" th:field="*{crewOnboard}" class="form-control" required>
+      <!-- Server-side error message -->
+      <div class="text-danger" th:if="${#fields.hasErrors('crewOnboard')}"
+           th:errors="*{crewOnboard}"></div>
+      <!-- Client-side error message -->
       <div class="invalid-feedback">
         Please enter the crew count.
       </div>
@@ -67,6 +82,10 @@
         <option value="" disabled selected>Select a mission type</option>
         <option th:each="type : ${missionTypes}" th:value="${type}" th:text="${type}"></option>
       </select>
+      <!-- Server-side error message -->
+      <div class="text-danger" th:if="${#fields.hasErrors('missionType')}"
+           th:errors="*{missionType}"></div>
+      <!-- Client-side error message -->
       <div class="invalid-feedback">
         Please select a mission type.
       </div>
