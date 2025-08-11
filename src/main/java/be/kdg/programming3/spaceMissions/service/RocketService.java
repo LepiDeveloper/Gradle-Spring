@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface RocketService {
 
     List<Rocket> getAllRockets();
-    Optional<Rocket> getRocketById(int id);
+    Rocket getRocketById(int id);
     Rocket addRocket(Rocket rocket);
     Rocket updateRocket(Rocket rocket);
     void deleteRocket(int id);

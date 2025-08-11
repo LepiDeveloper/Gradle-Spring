@@ -14,6 +14,7 @@ public class Mission {
     private LocalDate launchDate;
     private Optional<Integer> crewOnboard;
     boolean isSuccess;
+    private String imageFileName;
 
     private MissionType missionType;
     private LaunchSite launchSite;
@@ -21,7 +22,7 @@ public class Mission {
 
     // no rockets and launchSites
     public Mission(int missionId, String missionName, String missionObjective, LocalDate launchDate, MissionType missionType,
-                   Optional<Integer> crewOnboard, boolean isSuccess) {
+                   Optional<Integer> crewOnboard, boolean isSuccess, String imageFileName) {
         this.missionId = missionId;
         this.missionName = missionName;
         this.missionObjective = missionObjective;
@@ -29,11 +30,12 @@ public class Mission {
         this.missionType = missionType;
         this.crewOnboard = crewOnboard;
         this.isSuccess = isSuccess;
+        this.imageFileName = imageFileName;
     }
 
     // with rockets and launchSites
     public Mission(int missionId, String missionName, String missionObjective, LocalDate launchDate, MissionType missionType,
-                   Optional<Integer> crewOnboard, boolean isSuccess, LaunchSite launchSite) {
+                   Optional<Integer> crewOnboard, boolean isSuccess, String imageFileName, LaunchSite launchSite) {
         this.missionId = missionId;
         this.missionName = missionName;
         this.missionObjective = missionObjective;
@@ -41,6 +43,7 @@ public class Mission {
         this.missionType = missionType;
         this.crewOnboard = crewOnboard;
         this.isSuccess = isSuccess;
+        this.imageFileName = imageFileName;
         this.launchSite = launchSite;
     }
 
@@ -121,6 +124,14 @@ public class Mission {
 
     public void setRockets(List<Rocket> rockets) {
         this.rockets = rockets;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
 
     public void addRocket(Rocket rocket) {

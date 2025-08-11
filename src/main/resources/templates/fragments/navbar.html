@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragments</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+</head>
+<body>
+
+<!-- Navbar Fragment -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" xmlns:th="http://www.thymeleaf.org" th:fragment="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Space Missions</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/missions}">Missions</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/rockets}">Rockets</a></li>
+            </ul>
+        </div>
+
+        <form action="#" method="get">
+            <select name="lang" onchange="this.form.submit()">
+                <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+                <option value="bs" th:selected="${#locale.language == 'bs'}">Bosnian</option>
+            </select>
+        </form>
+
+    </div>
+</nav>
+
+<!-- Footer Fragment -->
+<div th:fragment="footer">
+    <footer class="footer bg-light py-3">
+        <div class="container">
+            <span class="text-muted">© 2024 Space Missions. "Space: the final frontier." – Captain Kirk from the Enterprise.</span>
+        </div>
+    </footer>
+</div>
+
+
+
+</body>
+</html>

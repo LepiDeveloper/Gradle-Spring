@@ -30,6 +30,13 @@ public class MissionController {
         return "missions";
     }
 
+    @GetMapping("/{id}")
+    public String getMissionDetails(@PathVariable int id, Model model) {
+        model.addAttribute("mission", missionService.getMissionById(id));
+        return "missionDetails";
+    }
+
+
     @GetMapping("/filter")
     public String filterMissions(@RequestParam(required = false, defaultValue = "") String missionType,
                                  @RequestParam(required = false, defaultValue = "") String siteName,
@@ -43,8 +50,8 @@ public class MissionController {
     @GetMapping("/add")
     public String addMission(Model model) {
         logger.debug("Displaying add mission form");
-        model.addAttribute("mission", new Mission()); // empty Mission object for form binding
-        model.addAttribute("missionTypes", MissionType.values()); // for dropdown selection
+        model.addAttribute("mission", new Mission());
+        model.addAttribute("missionTypes", MissionType.values());
         return "add-mission";
     }
 
@@ -54,9 +61,6 @@ public class MissionController {
         missionService.addMission(mission);
         return "redirect:/missions";
     }
-
-
-
 
 
 }

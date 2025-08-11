@@ -9,23 +9,26 @@ public class Rocket {
     private String rocketName;
     private double launchCapacity;
     private String manufacturer;
+    private String imageFileName;
 
     private List<Mission> missions = new ArrayList<>();
 
     // no missions
-    public Rocket(int rocketId, String rocketName, double launchCapacity, String manufacturer) {
+    public Rocket(int rocketId, String rocketName, double launchCapacity, String manufacturer, String imageFileName) {
         this.rocketId = rocketId;
         this.rocketName = rocketName;
         this.launchCapacity = launchCapacity;
         this.manufacturer = manufacturer;
+        this.imageFileName = imageFileName;
     }
 
     // with missions
-    public Rocket(int rocketId, String rocketName, double launchCapacity, String manufacturer, List<Mission> missions) {
+    public Rocket(int rocketId, String rocketName, double launchCapacity, String manufacturer, String imageFileName, List<Mission> missions) {
         this.rocketId = rocketId;
         this.rocketName = rocketName;
         this.launchCapacity = launchCapacity;
         this.manufacturer = manufacturer;
+        this.imageFileName = imageFileName;
         this.missions = missions;
     }
 
@@ -74,6 +77,14 @@ public class Rocket {
 
     public void setMissions(List<Mission> missions) {
         this.missions = missions;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
 
     public void addMission(Mission mission) {

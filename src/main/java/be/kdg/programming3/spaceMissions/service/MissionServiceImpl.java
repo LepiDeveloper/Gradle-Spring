@@ -28,9 +28,9 @@ public class MissionServiceImpl implements MissionService {
     }
 
     @Override
-    public Optional<Mission> getMissionById(int id) {
+    public Mission getMissionById(int id) {
         logger.debug("Fetching mission with id {}", id);
-        return missionRepository.findMissionById(id);
+        return missionRepository.findMissionById(id).orElseThrow(() -> new RuntimeException("Mission not found"));
     }
 
     @Override

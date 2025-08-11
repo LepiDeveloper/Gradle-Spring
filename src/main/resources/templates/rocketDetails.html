@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Missions</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">
+    </script>
+
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+<h1>Rocket Details</h1>
+
+<div class="container mt-5">
+
+    <h1 th:text="${rocket.rocketName}"></h1>
+    <p>Capacity: <span th:text="${rocket.launchCapacity}"></span> kg</p>
+    <p>Manufacturer: <span th:text="${rocket.manufacturer}"></span></p>
+    <!-- Add more details as needed -->
+
+    <a th:href="@{/rockets}" class="btn btn-secondary">Back to Rockets</a>
+
+</div>
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
+
+</body>
+</html>

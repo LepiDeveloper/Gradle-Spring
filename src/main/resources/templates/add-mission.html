@@ -3,35 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <title>Add Missions</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"> </script>
+
 </head>
 <body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+
 
 <!-- Form to add a new missions -->
-<form action="#" th:action="@{/missions/add}" th:object="${mission}" method="post">
-  <label for="name">Name</label>
-  <input type="text" id="name" name="missionName" th:field="*{missionName}" required>
+<h1 th:text="#{add.mission.heading}">Add a New Mission</h1>
 
-  <label for="missionObjective">Mission Objective</label>
-  <input type="text" id="missionObjective" name="missionObjective" th:field="*{missionObjective}" required>
+<div class="container mt-5">
+  <h1 class="mb-4" th:text="#{add.mission.heading}">Add a New Mission</h1>
 
-  <label for="launchDate">Launch Date</label>
-  <input type="date" id="launchDate" name="launchDate" th:field="*{launchDate}">
+  <form th:action="@{/missions/add}" th:object="${mission}" method="post"
+        class="needs-validation" novalidate>
 
-  <label for="crewOnBoard">Crew On Board</label>
-  <input type="number" id="crewOnBoard" name="crewOnBoard" th:field="*{crewOnboard}" required>
+    <!-- Mission Name -->
+    <div class="mb-3">
+      <label for="name" class="form-label" th:text="#{mission.name}">Mission Name</label>
+      <input type="text" id="name" th:field="*{missionName}" class="form-control" required>
+      <div class="invalid-feedback">
+        Please provide a mission name.
+      </div>
+    </div>
 
-  <label for="isSuccess">Was it successful</label>
-  <input type="checkbox" id="isSuccess" name="isSuccess" th:field="*{success}">
+    <!-- Mission Objective -->
+    <div class="mb-3">
+      <label for="missionObjective" class="form-label" th:text="#{mission.objective}">Mission Objective</label>
+      <input type="text" id="missionObjective" th:field="*{missionObjective}" class="form-control" required>
+      <div class="invalid-feedback">
+        Please enter the mission objective.
+      </div>
+    </div>
 
+    <!-- Launch Date -->
+    <div class="mb-3">
+      <label for="launchDate" class="form-label" th:text="#{mission.launchDate}">Launch Date</label>
+      <input type="date" id="launchDate" th:field="*{launchDate}" class="form-control">
+    </div>
 
-  <label for="missionType">Mission Type</label>
-  <select id="missionType" name="missionType" th:field="*{missionType}">
-    <option value="" disabled selected>Select a mission type</option>
-    <option th:each="type : ${missionTypes}" th:value="${type}" th:text="${type}"></option>
-  </select>
+    <!-- Crew On Board -->
+    <div class="mb-3">
+      <label for="crewOnBoard" class="form-label" th:text="#{mission.crewOnBoard}">Crew On Board</label>
+      <input type="number" id="crewOnBoard" th:field="*{crewOnboard}" class="form-control" required min="0">
+      <div class="invalid-feedback">
+        Please enter the crew count.
+      </div>
+    </div>
 
-  <input type="submit" value="Add Mission">
-</form>
+    <!-- Successful -->
+    <div class="form-check mb-3">
+      <input type="checkbox" id="isSuccess" th:field="*{success}" class="form-check-input">
+      <label class="form-check-label" for="isSuccess" th:text="#{mission.isSuccess}">Is it Successful</label>
+    </div>
 
+    <!-- Mission Type -->
+    <div class="mb-4">
+      <label for="missionType" class="form-label" th:text="#{mission.type}">Mission Type</label>
+      <select id="missionType" th:field="*{missionType}" class="form-select" required>
+        <option value="" disabled selected>Select a mission type</option>
+        <option th:each="type : ${missionTypes}" th:value="${type}" th:text="${type}"></option>
+      </select>
+      <div class="invalid-feedback">
+        Please select a mission type.
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-primary" th:text="#{form.submit}">Submit</button>
+  </form>
+</div>
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
+
+<script>
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
 </body>
 </html>

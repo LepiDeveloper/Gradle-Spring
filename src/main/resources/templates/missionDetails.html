@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Missions</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">
+    </script>
+
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+<h1>Missions Details</h1>
+
+<div class="container mt-5">
+
+    <h1 th:text="${mission.missionName}"></h1>
+    <p>Objective: <span th:text="${mission.missionObjective}"></span></p>
+    <p>Launch Date: <span th:text="${mission.launchDate}"></span></p>
+    <p>Crew Onboard: <span th:text="${mission.crewOnboard}"></span></p>
+    <p>Is Successful: <span th:text="${mission.isSuccess}"></span></p>
+    <p>Mission Type: <span th:text="${mission.missionType}"></span></p>
+    <!-- Add more details as needed -->
+
+    <a th:href="@{/missions}" class="btn btn-secondary">Back to Missions</a>
+
+</div>
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
+</body>
+</html>

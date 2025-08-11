@@ -3,24 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <title>Add Rockets</title>
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+  <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
 </head>
 <body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
 
-<h1>Add a New Rocket</h1>
+<h1 th:text="#{add.rocket.heading}">Add a New Rocket</h1>
 
-<!-- Form to add a new rocket -->
-<form action="#" th:action="@{/rockets/add}" th:object="${rocket}" method="post">
-  <label for="name">Name</label>
-  <input type="text" id="name" name="rocketName" th:field="*{rocketName}" required>
+<div class="container">
+  <form th:action="@{/rockets/add}" th:object="${rocket}" method="post" class="needs-validation" novalidate>
 
-  <label for="launchCapacity">Launch Capacity</label>
-  <input type="number" id="launchCapacity" name="launchCapacity" th:field="*{launchCapacity}" required>
+    <div class="mb-3">
+      <label for="rocketName" class="form-label" th:text="#{rocket.name}">Name</label>
+      <input type="text" id="rocketName" th:field="*{rocketName}" class="form-control" required>
+      <div class="invalid-feedback">
+        Please provide a rocket name.
+      </div>
+    </div>
 
-  <label for="manufacturer">Manufacturer</label>
-  <input type="text" id="manufacturer" name="manufacturer" th:field="*{manufacturer}" required>
+    <div class="mb-3">
+      <label for="launchCapacity" class="form-label" th:text="#{rocket.launchCapacity}">Launch Capacity</label>
+      <input type="number" id="launchCapacity" th:field="*{launchCapacity}" class="form-control" required>
+      <div class="invalid-feedback">
+        Please provide a launch capacity.
+      </div>
+    </div>
 
-  <input type="submit" value="Add Rocket">
-</form>
+    <div class="mb-3">
+      <label for="manufacturer" class="form-label" th:text="#{rocket.manufacturer}">Manufacturer</label>
+      <input type="text" id="manufacturer" th:field="*{manufacturer}" class="form-control" required>
+      <div class="invalid-feedback">
+        Please provide a manufacturer.
+      </div>
+    </div>
 
+    <button type="submit" class="btn btn-primary" th:text="#{add.rocket.submit}">Add Rocket</button>
+  </form>
+</div>
+
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
+
+
+<script>
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
 </body>
 </html>

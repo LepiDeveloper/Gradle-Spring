@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface MissionService {
 
     List<Mission> getAllMissions();
-    Optional<Mission> getMissionById(int id);
+    Mission getMissionById(int id);
     Mission addMission(Mission mission);
     void updateMission(Mission mission);
     void deleteMission(int id);

@@ -32,6 +32,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation ("org.webjars:bootstrap:5.3.3")
+    implementation ("org.webjars:webjars-locator:0.52")
+    implementation ("org.webjars.npm:bootstrap-icons:1.11.3")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))

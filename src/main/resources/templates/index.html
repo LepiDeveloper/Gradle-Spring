@@ -3,28 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <title>Space Missions</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"> </script>
+
 </head>
 <body>
-<h1>SPACE MISSIONS</h1>
-<h2>
-  <!-- Link to the missions page -->
-  <a th:href="@{/missions}">Missions</a>
-</h2>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
 
-<h2>
-  <!-- Link to the rockets page -->
-  <a th:href="@{/rockets}">Rockets</a>
-</h2>
 
-<h2>
-  <!-- Link to the add-missions page -->
-  <a th:href="@{/rockets/add}">Add Rocket</a>
-</h2>
+<div class="container my-5">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
 
-<h2>
-  <!-- Link to the add-rockets page -->
-  <a th:href="@{/missions/add}">Add Mission</a>
-</h2>
+    <div class="col-md-4 mb-4">
+      <div class="card mb-4" style="height: 400px;">
+        <img th:src="@{/missionPlaceholder.png}" class="card-img-top" alt="Mission Image"/>
 
+        <div class="card-body">
+          <h5 class="card-title">Missions</h5>
+          <p class="card-text">View and manage all the space missions here.</p>
+
+          <a href="/missions" class="btn btn-primary">View Missions</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card mb-4" style="height: 400px;">
+        <img th:src="@{/rocketPlaceholder.png}" class="card-img-top" alt="Rocket Image"/>
+
+        <div class="card-body">
+          <h5 class="card-title">Rockets</h5>
+          <p class="card-text">View and manage all the rockets here.</p>
+
+          <a href="/rockets" class="btn btn-primary">View Rockets</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card mb-4" style="height: 400px;">
+        <img th:src="@{/launchSitePlaceholder.png}" class="card-img-top" alt="Placeholder Image"/>
+
+        <div class="card-body">
+          <h5 class="card-title">Add Missions</h5>
+          <p class="card-text">Add new missions here.</p>
+
+          <a href="/missions/add" class="btn btn-primary">Add Missions</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+      <div class="card mb-4" style="height: 400px;">
+        <img th:src="@{/launchSitePlaceholder.png}" class="card-img-top" alt="Placeholder Image"/>
+
+        <div class="card-body">
+          <h5 class="card-title">Add Rockets</h5>
+          <p class="card-text">Add new rockets here.</p>
+
+          <a href="/rockets/add" class="btn btn-primary">Add Rockets</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
 </body>
 </html>

@@ -3,36 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <title>Missions</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"> </script>
+
 </head>
 <body>
-<h1>All Missions</h1>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
 
-<form th:action="@{/missions/filter}" method="get" class="mb-3">
-  <input type="text" name="missionType" placeholder="Mission Type" class="form-control mb-2">
-  <input type="text" name="siteName" placeholder="Launch Site Name" class="form-control mb-2">
-  <button type="submit" class="btn btn-primary">Filter</button>
-</form>
+<h1 th:text="#{mission.heading}">All Missions</h1>
 
-<table>
-  <tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th>Objective</th>
-    <th>Launch Date</th>
-    <th>Crew Onboard</th>
-    <th>Is Success</th>
-    <th>Mission Type</th>
-  </tr>
-  <tr th:each="mission : ${missions}">
-    <td th:text="${mission.missionId}"></td>
-    <td th:text="${mission.missionName}"></td>
-    <td th:text="${mission.missionObjective}"></td>
-    <td th:text="${mission.launchDate}"></td>
-    <td th:text="${mission.crewOnboard}"></td>
-    <td th:text="${mission.isSuccess}"></td>
-    <td th:text="${mission.missionType}"></td>
-  </tr>
-</table>
+<div class="container mt-5">
+
+  <form th:action="@{/missions/filter}" method="get" class="row g-2 mb-4">
+    <div class="col-md-4">
+      <input type="text" name="missionType" placeholder="Mission Type"
+             class="form-control" th:placeholder="#{filter.missionType}">
+    </div>
+    <div class="col-md-4">
+      <input type="text" name="siteName" placeholder="Launch Site Name"
+             class="form-control" th:placeholder="#{filter.siteName}">
+    </div>
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="bi bi-filter"></i> <span th:text="#{filter.button}">Filter</span>
+      </button>
+    </div>
+  </form>
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+    <!-- Loop through the list of missions -->
+    <div class="col-12 col-sm-6 col-md-4" th:each="mission : ${missions}">
+      <div class="card mb-4" style="height: 400px;">
+        <!-- Image for the mission -->
+        <img th:src="@{'/' + ${mission.imageFileName}}" class="card-img-top" alt="Mission Image"/>
+
+        <!-- Mission details -->
+        <div class="card-body">
+          <h5 class="card-title" th:text="${mission.missionName}"></h5>
+          <p class="card-text">
+            Objective: <span th:text="${mission.missionObjective}"></span><br>
+          </p>
+          <!-- Button for more details -->
+          <a th:href="@{/missions/{id}(id=${mission.getMissionId()})}" class="btn btn-primary">Details</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
 
 </body>
 </html>

@@ -27,9 +27,9 @@ public class RocketServiceImpl implements RocketService {
     }
 
     @Override
-    public Optional<Rocket> getRocketById(int id) {
+    public Rocket getRocketById(int id) {
         logger.info("Get rocket by id: {}", id);
-        return rocketRepository.findRocketById(id);
+        return rocketRepository.findRocketById(id).orElseThrow(() -> new RuntimeException("Rocket not found"));
     }
 
     @Override

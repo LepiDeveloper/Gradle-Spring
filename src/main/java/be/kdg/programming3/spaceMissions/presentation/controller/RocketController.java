@@ -29,6 +29,12 @@ public class RocketController {
         return "rockets";
     }
 
+    @GetMapping("/{id}")
+    public String getRocketDetails(@PathVariable int id, Model model) {
+        model.addAttribute("rocket", rocketService.getRocketById(id));
+        return "rocketDetails"; // This should correspond to your Thymeleaf template
+    }
+
     @GetMapping("/filter")
     public String filterRockets(@RequestParam double minCapacity, Model model) {
         logger.debug("Filtering rockets with capacity over {}", minCapacity);

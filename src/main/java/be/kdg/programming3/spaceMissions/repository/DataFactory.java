@@ -40,10 +40,10 @@ public class DataFactory {
         launchSites.add(capeCanaveral);
 
         // Seed rockets
-        Rocket falcon9 = new Rocket(1, "Falcon 9", 22800, "SpaceX");
-        Rocket starship = new Rocket(2, "Starship", 150000, "SpaceX");
-        Rocket atlasV = new Rocket(3, "Atlas V", 18800, "Lockheed Martin and ULA");
-        Rocket deltaIV = new Rocket(4, "Delta IV Heavy", 28600, "Boeing and ULA");
+        Rocket falcon9 = new Rocket(1, "Falcon 9", 22800, "SpaceX", "rocketPlaceholder.png");
+        Rocket starship = new Rocket(2, "Starship", 150000, "SpaceX", "rocketPlaceholder.png");
+        Rocket atlasV = new Rocket(3, "Atlas V", 18800, "Lockheed Martin and ULA", "rocketPlaceholder.png");
+        Rocket deltaIV = new Rocket(4, "Delta IV Heavy", 28600, "Boeing and ULA", "rocketPlaceholder.png");
 
         // Add rockets to the list
         rockets.add(falcon9);
@@ -53,19 +53,19 @@ public class DataFactory {
 
         // Seed missions
         Mission starlinkMission = new Mission(101, "Starlink 1", "Deliver payload to low-earth orbit",
-                LocalDate.of(2020, 5, 30),  MissionType.SATELLITE_DEPLOYMENT, Optional.empty(),true, kennedySpaceCenter);
+                LocalDate.of(2020, 5, 30),  MissionType.SATELLITE_DEPLOYMENT, Optional.empty(),true,"missionPlaceholder.png", kennedySpaceCenter);
         Mission crew1Mission = new Mission(102, "Crew-1", "Deliver astronauts Michael Hopkins, Victor Glover and Shannon Walker to the ISS",
-                LocalDate.of(2021, 4, 23),  MissionType.CREWED_MISSION,Optional.of(3),true, kennedySpaceCenter);
+                LocalDate.of(2021, 4, 23),  MissionType.CREWED_MISSION,Optional.of(3),true,"missionPlaceholder.png", kennedySpaceCenter);
         Mission perseveranceMission = new Mission(103, "Mars Perseverance Rover", "Objective for Perseverance's mission on Mars is astrobiology, including the search for signs of ancient microbial life",
-                LocalDate.of(2020, 7, 30),  MissionType.INTERPLANETARY_EXPLORATION,Optional.empty(),true, vandenbergAirForceBase );
+                LocalDate.of(2020, 7, 30),  MissionType.INTERPLANETARY_EXPLORATION,Optional.empty(),true,"missionPlaceholder.png", vandenbergAirForceBase );
         Mission starshipTest = new Mission(104, "Fourth Flight Test", " Attempt a landing on a virtual tower, in preparation for a catch during Flight 5",
-                LocalDate.of(2024, 6, 6),  MissionType.TECHNOLOGY_DEMONSTRATION,Optional.empty(),false, starbase);
+                LocalDate.of(2024, 6, 6),  MissionType.TECHNOLOGY_DEMONSTRATION,Optional.empty(),false,"missionPlaceholder.png", starbase);
         Mission LRO = new Mission(105, "Lunar Reconnaissance Orbiter", "primary goal was to make a 3D map of the Moon’s surface",
-                LocalDate.of(2009, 6, 18), MissionType.LUNAR_EXPLORATION,Optional.empty(),true, capeCanaveral);
+                LocalDate.of(2009, 6, 18), MissionType.LUNAR_EXPLORATION,Optional.empty(),true,"missionPlaceholder.png", capeCanaveral);
         Mission orion = new Mission(106, "Orion NROL-70", "Classified",
-                LocalDate.of(2024, 4, 9), MissionType.MILITARY,Optional.empty(),true, capeCanaveral);
+                LocalDate.of(2024, 4, 9), MissionType.MILITARY,Optional.empty(),true,"missionPlaceholder.png", capeCanaveral);
         Mission resupplyMission = new Mission(107, "SpaceX CRS-30", "Deliver cargo and equipment to the International Space Station",
-                LocalDate.of(2024, 3, 21), MissionType.CARGO_RESUPPLY,Optional.empty(),true, capeCanaveral);
+                LocalDate.of(2024, 3, 21), MissionType.CARGO_RESUPPLY,Optional.empty(),true,"missionPlaceholder.png", capeCanaveral);
 
         // Add missions to the list
         missions.add(starlinkMission);
