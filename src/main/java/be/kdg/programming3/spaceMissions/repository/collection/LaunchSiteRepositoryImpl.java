@@ -1,6 +1,9 @@
-package be.kdg.programming3.spaceMissions.repository;
+package be.kdg.programming3.spaceMissions.repository.collection;
 
 import be.kdg.programming3.spaceMissions.domain.LaunchSite;
+import be.kdg.programming3.spaceMissions.repository.DataFactory;
+import be.kdg.programming3.spaceMissions.repository.LaunchSiteRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Repository
+@Profile("collection")
 public class LaunchSiteRepositoryImpl implements LaunchSiteRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(LaunchSiteRepositoryImpl.class);

@@ -35,6 +35,9 @@ dependencies {
     implementation ("org.webjars:bootstrap:5.3.3")
     implementation ("org.webjars:webjars-locator:0.52")
     implementation ("org.webjars.npm:bootstrap-icons:1.11.3")
+    implementation ("org.springframework.boot:spring-boot-starter-jdbc")
+    runtimeOnly ("com.h2database:h2")
+
 
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
