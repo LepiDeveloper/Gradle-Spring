@@ -55,4 +55,9 @@ public class RocketServiceImpl implements RocketService {
         logger.info("Get all rockets by min capacity: {}", minCapacity);
         return rocketRepository.findRocketsByLaunchCapacityGreaterThan(minCapacity);
     }
+
+    @Override
+    public List<Rocket> getRocketsByIds(List<Integer> ids) {
+        return rocketRepository.findRocketsByIds(ids);
+    }
 }

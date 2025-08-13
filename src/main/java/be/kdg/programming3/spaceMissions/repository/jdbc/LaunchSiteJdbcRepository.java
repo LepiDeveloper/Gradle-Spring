@@ -1,6 +1,8 @@
 package be.kdg.programming3.spaceMissions.repository.jdbc;
 
 import be.kdg.programming3.spaceMissions.domain.LaunchSite;
+import be.kdg.programming3.spaceMissions.domain.Mission;
+import be.kdg.programming3.spaceMissions.domain.MissionType;
 import be.kdg.programming3.spaceMissions.domain.Rocket;
 import be.kdg.programming3.spaceMissions.repository.LaunchSiteRepository;
 import org.springframework.context.annotation.Profile;
@@ -24,11 +26,34 @@ public class LaunchSiteJdbcRepository implements LaunchSiteRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private List<Mission> findMissionsForLaunchSite(int siteId) {
+        String sql = """
+              SELECT m.*, ls.site_name, ls.location FROM missions m
+                JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id
+                WHERE m.launch_site_id = ?
+    """;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Mission mission = new Mission();
+            mission.setMissionId(rs.getInt("mission_id"));
+            mission.setMissionName(rs.getString("mission_name"));
+            mission.setMissionObjective(rs.getString("mission_objective"));
+            mission.setLaunchDate(rs.getDate("launch_date").toLocalDate());
+            mission.setMissionType(MissionType.valueOf(rs.getString("mission_type")));
+            mission.setCrewOnboard(Optional.ofNullable((Integer) rs.getObject("crew_onboard")));
+            mission.setSuccess(rs.getBoolean("is_success"));
+            mission.setImageFileName(rs.getString("image_file_name"));
+            return mission;
+        }, siteId);
+    }
+
+
     private LaunchSite mapLaunchSite(ResultSet rs, int rowNum) throws SQLException {
         LaunchSite launchSite = new LaunchSite();
         launchSite.setSiteId(rs.getInt("launch_site_id"));
         launchSite.setSiteName(rs.getString("site_name"));
         launchSite.setLocation(rs.getString("location"));
+        launchSite.setImageFileName(rs.getString("image_file_name"));
+        launchSite.setMissions(findMissionsForLaunchSite(launchSite.getSiteId()));
         return launchSite;
     }
 
@@ -76,6 +101,8 @@ public class LaunchSiteJdbcRepository implements LaunchSiteRepository {
 
     @Override
     public void deleteLaunchSiteById(int id) {
+        jdbcTemplate.update("DELETE FROM mission_rocket WHERE mission_id IN (SELECT mission_id FROM missions WHERE launch_site_id = ?)", id);
+        jdbcTemplate.update("DELETE FROM missions WHERE launch_site_id = ?", id);
         jdbcTemplate.update("DELETE FROM launch_sites WHERE launch_site_id = ?", id);
     }
 }

@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 @Controller
 @RequestMapping("/rockets")
@@ -60,7 +65,7 @@ public class RocketController {
     }
 
     @PostMapping("/add")
-    public String processAddRocket(@Valid @ModelAttribute("rocket") RocketViewModel rocketViewModel, BindingResult errors, Model model) {
+    public String processAddRocket(@Valid @ModelAttribute("rocket") RocketViewModel rocketViewModel, BindingResult errors, Model model) throws IOException {
         logger.debug("Received data for a new rocket {}", rocketViewModel.getRocketName());
 
         if (errors.hasErrors()) {
@@ -68,13 +73,29 @@ public class RocketController {
         }
 
         Rocket rocket = new Rocket();
-        rocket.setRocketName(rocket.getRocketName());
+        rocket.setRocketName(rocketViewModel.getRocketName());
         rocket.setLaunchCapacity(rocketViewModel.getLaunchCapacity());
         rocket.setManufacturer(rocketViewModel.getManufacturer());
+
+        if (!rocketViewModel.getImageFile().isEmpty()) {
+            String fileName = rocketViewModel.getImageFile().getOriginalFilename();
+            Path uploadPath = Paths.get("src/main/resources/static");
+            Files.createDirectories(uploadPath);
+            rocketViewModel.getImageFile().transferTo(uploadPath.resolve(fileName));
+            rocket.setImageFileName(fileName);
+            logger.debug("Image uploaded: {}", fileName);
+        }
 
         rocketService.addRocket(rocket);
         return "redirect:/rockets";
     }
+
+    @PostMapping("/{id}/delete")
+    public String deleteRocket(@PathVariable int id) {
+        rocketService.deleteRocket(id);
+        return "redirect:/rockets";
+    }
+
 
 
 

@@ -3,6 +3,7 @@ package be.kdg.programming3.spaceMissions.repository.jdbc;
 import be.kdg.programming3.spaceMissions.domain.LaunchSite;
 import be.kdg.programming3.spaceMissions.domain.Mission;
 import be.kdg.programming3.spaceMissions.domain.MissionType;
+import be.kdg.programming3.spaceMissions.domain.Rocket;
 import be.kdg.programming3.spaceMissions.repository.MissionRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,6 +26,23 @@ public class MissionJdbcRepository implements MissionRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private List<Rocket> findRocketsForMission(int missionId) {
+        String sql = """
+        SELECT r.* FROM rockets r
+        JOIN mission_rocket mr ON r.rocket_id = mr.rocket_id
+        WHERE mr.mission_id = ?
+    """;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Rocket rocket = new Rocket();
+            rocket.setRocketId(rs.getInt("rocket_id"));
+            rocket.setRocketName(rs.getString("rocket_name"));
+            rocket.setLaunchCapacity(rs.getInt("payload_capacity"));
+            rocket.setManufacturer(rs.getString("manufacturer"));
+            rocket.setImageFileName(rs.getString("image_file_name"));
+            return rocket;
+        }, missionId);
+    }
+
     private Mission mapMission(ResultSet rs, int rowId) throws SQLException {
         Mission mission = new Mission();
         mission.setMissionId(rs.getInt("mission_id"));
@@ -35,8 +53,9 @@ public class MissionJdbcRepository implements MissionRepository {
         mission.setCrewOnboard(Optional.ofNullable((Integer) rs.getObject("crew_onboard")));
         mission.setSuccess(rs.getBoolean("is_success"));
         mission.setImageFileName(rs.getString("image_file_name"));
-        LaunchSite site = new LaunchSite(rs.getInt("launch_site_id"), rs.getString("site_name"), rs.getString("location"));
+        LaunchSite site = new LaunchSite(rs.getInt("launch_site_id"), rs.getString("site_name"), rs.getString("location"), rs.getString("image_file_name"));
         mission.setLaunchSite(site);
+        mission.setRockets(findRocketsForMission(mission.getMissionId())); // eager load
         return mission;
     }
 
@@ -71,6 +90,13 @@ public class MissionJdbcRepository implements MissionRepository {
 
         int id = insert.executeAndReturnKey(params).intValue();
         mission.setMissionId(id);
+
+        // Insert cross-table rows
+        for (Rocket rocket : mission.getRockets()) {
+            jdbcTemplate.update("INSERT INTO mission_rocket (mission_id, rocket_id) VALUES (?, ?)",
+                    mission.getMissionId(), rocket.getRocketId());
+        }
+
         return mission;
     }
 
@@ -91,11 +117,18 @@ public class MissionJdbcRepository implements MissionRepository {
                 mission.getLaunchSite().getSiteId(),
                 mission.getMissionId()
         );
+        jdbcTemplate.update("DELETE FROM mission_rocket WHERE mission_id = ?", mission.getMissionId());
+        for (Rocket rocket : mission.getRockets()) {
+            jdbcTemplate.update("INSERT INTO mission_rocket (mission_id, rocket_id) VALUES (?, ?)",
+                    mission.getMissionId(), rocket.getRocketId());
+        }
+
         return mission;
     }
 
     @Override
     public void deleteMissionById(int id) {
+        jdbcTemplate.update("DELETE FROM mission_rocket WHERE mission_id = ?", id);
         jdbcTemplate.update("DELETE FROM missions WHERE mission_id = ?", id);
     }
 

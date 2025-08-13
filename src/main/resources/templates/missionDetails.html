@@ -21,6 +21,22 @@
     <p>Crew Onboard: <span th:text="${mission.crewOnboard}"></span></p>
     <p>Is Successful: <span th:text="${mission.isSuccess}"></span></p>
     <p>Mission Type: <span th:text="${mission.missionType}"></span></p>
+
+    <h3>Rockets Used</h3>
+    <ul>
+        <li th:each="rocket : ${mission.rockets}">
+            <a th:href="@{/rockets/{id}(id=${rocket.rocketId})}" th:text="${rocket.rocketName}"></a>
+        </li>
+    </ul>
+
+    <h3>Launched From</h3>
+    <p>
+        Launch Site:
+        <a th:href="@{/launchSites/{id}(id=${mission.launchSite.getSiteId()})}"
+           th:text="${mission.launchSite.siteName}"></a>
+    </p>
+    <p>Location: <span th:text="${mission.launchSite.location}"></span></p>
+
     <!-- Add more details as needed -->
 
     <a th:href="@{/missions}" class="btn btn-secondary">Back to Missions</a>

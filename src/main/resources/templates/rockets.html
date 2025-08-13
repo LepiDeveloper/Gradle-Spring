@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Rockets</title>
   <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
   <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"> </script>
 
@@ -43,6 +43,14 @@
           </p>
           <!-- Button for more details -->
           <a th:href="@{/rockets/{id}(id=${rocket.getRocketId()})}" class="btn btn-primary">Details</a>
+
+          <form th:action="@{/rockets/{id}/delete(id=${rocket.rocketId})}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm">
+              <i class="bi bi-trash"></i>
+            </button>
+          </form>
+
+
         </div>
       </div>
     </div>

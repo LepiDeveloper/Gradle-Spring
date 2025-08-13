@@ -8,21 +8,24 @@ public class LaunchSite {
     private int siteId;
     private String siteName;
     private String location;
+    private String imageFileName;
 
     private List<Mission> missions = new ArrayList<Mission>();
 
     // no missions
-    public LaunchSite(int siteId, String siteName, String location) {
+    public LaunchSite(int siteId, String siteName, String location, String imageFileName) {
         this.siteId = siteId;
         this.siteName = siteName;
         this.location = location;
+        this.imageFileName = imageFileName;
     }
 
     // with missions
-    public LaunchSite(int siteId, String siteName, String location, List<Mission> missions) {
+    public LaunchSite(int siteId, String siteName, String location, String imageFileName, List<Mission> missions) {
         this.siteId = siteId;
         this.siteName = siteName;
         this.location = location;
+        this.imageFileName = imageFileName;
         this.missions = missions;
     }
 
@@ -64,6 +67,14 @@ public class LaunchSite {
 
     public void setMissions(List<Mission> missions) {
         this.missions = missions;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
     }
 
     public void addMission(Mission mission) {

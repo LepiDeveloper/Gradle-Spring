@@ -60,4 +60,12 @@ public class RocketRepositoryImpl implements RocketRepository {
                 .filter(rocket -> rocket.getLaunchCapacity() > capacity)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Rocket> findRocketsByIds(List<Integer> ids) {
+        logger.info("Finding rockets by ids: {}", ids);
+        return DataFactory.rockets.stream()
+                .filter(rocket -> ids.contains(rocket.getRocketId()))
+                .collect(Collectors.toList());
+    }
 }

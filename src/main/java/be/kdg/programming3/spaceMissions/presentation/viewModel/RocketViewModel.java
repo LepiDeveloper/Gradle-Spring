@@ -3,6 +3,7 @@ package be.kdg.programming3.spaceMissions.presentation.viewModel;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 public class RocketViewModel {
 
@@ -15,6 +16,8 @@ public class RocketViewModel {
 
     @NotBlank(message = "Rocket manufacturer is required")
     private String manufacturer;
+
+    private MultipartFile imageFile; // Uploaded file
 
     public RocketViewModel() {}
 
@@ -40,5 +43,13 @@ public class RocketViewModel {
 
     public void setManufacturer(String manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    public MultipartFile getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
 }

@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface LaunchSiteService {
 
     List<LaunchSite> getAllLaunchSites();
-    Optional<LaunchSite> getLaunchSiteById(int id);
+    LaunchSite getLaunchSiteById(int id);
     LaunchSite addLaunchSite(LaunchSite launchSite);
     LaunchSite updateLaunchSite(LaunchSite launchSite);
     void deleteLaunchSite(int id);

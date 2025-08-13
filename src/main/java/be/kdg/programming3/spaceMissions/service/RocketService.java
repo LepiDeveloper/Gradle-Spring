@@ -13,5 +13,6 @@ public interface RocketService {
     Rocket updateRocket(Rocket rocket);
     void deleteRocket(int id);
     List<Rocket> getRocketsByMinCapacity(double minCapacity);
+    List<Rocket> getRocketsByIds(List<Integer> ids);
 
 }

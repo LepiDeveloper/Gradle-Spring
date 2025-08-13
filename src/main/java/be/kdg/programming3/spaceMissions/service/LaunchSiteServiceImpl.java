@@ -28,9 +28,9 @@ public class LaunchSiteServiceImpl implements LaunchSiteService {
     }
 
     @Override
-    public Optional<LaunchSite> getLaunchSiteById(int id) {
-        logger.debug("Fetching all launch site by ID {}", id);
-        return launchSiteRepository.findLaunchSiteById(id);
+    public LaunchSite getLaunchSiteById(int id) {
+        logger.debug("Fetching launch site by ID {}", id);
+        return launchSiteRepository.findLaunchSiteById(id).orElseThrow(() -> new RuntimeException("Launch Site not found"));
     }
 
     @Override

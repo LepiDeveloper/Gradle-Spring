@@ -26,13 +26,13 @@ public class DataFactory {
     public void seed() {
         // Create launch site
         LaunchSite kennedySpaceCenter = new LaunchSite(1, "Kennedy Space Center",
-                "Florida, USA");
+                "Florida, USA", "launchSitePlaceholder.png");
         LaunchSite starbase = new LaunchSite(2, "StarBase OML-A",
-                "Texas, USA");
+                "Texas, USA", "launchSitePlaceholder.png");
         LaunchSite vandenbergAirForceBase = new LaunchSite(3, "Vandenberg Air Force Base",
-                "California, USA");
+                "California, USA", "launchSitePlaceholder.png");
         LaunchSite capeCanaveral = new LaunchSite(4, "Cape Canaveral Space Force Station",
-                "Florida, USA");
+                "Florida, USA", "launchSitePlaceholder.png");
 
         launchSites.add(kennedySpaceCenter);
         launchSites.add(starbase);

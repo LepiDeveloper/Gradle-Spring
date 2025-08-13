@@ -19,7 +19,8 @@
   <h1 class="mb-4" th:text="#{add.mission.heading}">Add a New Mission</h1>
 
   <form th:action="@{/missions/add}" th:object="${mission}" method="post"
-        class="needs-validation" novalidate>
+        class="needs-validation" novalidate
+        enctype="multipart/form-data">
 
     <!-- Mission Name -->
     <div class="mb-3">
@@ -89,6 +90,29 @@
       <div class="invalid-feedback">
         Please select a mission type.
       </div>
+    </div>
+
+    <!-- Launch Site -->
+    <div class="mb-3">
+      <label for="launchSite" class="form-label">Launch Site</label>
+      <select id="launchSite" th:field="*{launchSite}" class="form-select" required>
+        <option value="" disabled selected>Select a launch site</option>
+        <option th:each="site : ${launchSites}" th:value="${site.siteId}" th:text="${site.siteName}"></option>
+      </select>
+    </div>
+
+    <!-- Rockets -->
+    <div class="mb-3">
+      <label for="rockets" class="form-label">Rockets</label>
+      <select id="rockets" th:field="*{rockets}" class="form-select" multiple>
+        <option th:each="rocket : ${rockets}" th:value="${rocket.rocketId}" th:text="${rocket.rocketName}"></option>
+      </select>
+    </div>
+
+    <!-- Image Upload -->
+    <div class="mb-3">
+      <label for="imageFile" class="form-label">Mission Image</label>
+      <input type="file" id="imageFile" th:field="*{imageFile}" class="form-control" accept="image/*">
     </div>
 
     <!-- Submit -->

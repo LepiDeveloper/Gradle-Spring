@@ -13,7 +13,7 @@
 <h1 th:text="#{add.rocket.heading}">Add a New Rocket</h1>
 
 <div class="container">
-  <form th:action="@{/rockets/add}" th:object="${rocket}" method="post" class="needs-validation" novalidate>
+  <form th:action="@{/rockets/add}" th:object="${rocket}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 
     <div class="mb-3">
       <label for="rocketName" class="form-label" th:text="#{rocket.name}">Name</label>
@@ -49,6 +49,12 @@
       <div class="invalid-feedback">
         Please provide a manufacturer.
       </div>
+    </div>
+
+    <!-- Image Upload -->
+    <div class="mb-3">
+      <label for="imageFile" class="form-label">Rocket Image</label>
+      <input type="file" id="imageFile" th:field="*{imageFile}" class="form-control" accept="image/*">
     </div>
 
     <button type="submit" class="btn btn-primary" th:text="#{add.rocket.submit}">Add Rocket</button>

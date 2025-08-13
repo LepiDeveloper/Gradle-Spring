@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Launch Site Details</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}">
+  </script>
+
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-5">
+
+  <h1 th:text="${launchSite.siteName}"></h1>
+  <p>Location: <span th:text="${launchSite.location}"></span></p>
+
+  <h3>Missions Using This Lunch Site</h3>
+  <ul>
+    <li th:each="mission : ${launchSite.missions}">
+      <a th:href="@{/missions/{id}(id=${mission.missionId})}" th:text="${mission.missionName}"></a>
+    </li>
+  </ul>
+  <!-- Add more details as needed -->
+
+  <a th:href="@{/launchSites}" class="btn btn-secondary">Back to Launch Sites</a>
+
+</div>
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
+</body>
+</html>

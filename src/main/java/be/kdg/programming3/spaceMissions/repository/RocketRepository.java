@@ -13,5 +13,6 @@ public interface RocketRepository {
     Rocket updateRocket(Rocket rocket);
     void deleteRocketById(int id);
     List<Rocket> findRocketsByLaunchCapacityGreaterThan(double capacity);
+    List<Rocket> findRocketsByIds(List<Integer> ids);
 
 }

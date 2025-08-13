@@ -26,6 +26,29 @@ public class RocketJdbcRepository implements RocketRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private List<Mission> findMissionsForRocket(int rocketId) {
+        String sql = """
+        SELECT m.*, ls.site_name, ls.location FROM missions m
+        JOIN mission_rocket mr ON m.mission_id = mr.mission_id
+        JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id
+        WHERE mr.rocket_id = ?
+    """;
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Mission mission = new Mission();
+            mission.setMissionId(rs.getInt("mission_id"));
+            mission.setMissionName(rs.getString("mission_name"));
+            mission.setMissionObjective(rs.getString("mission_objective"));
+            mission.setLaunchDate(rs.getDate("launch_date").toLocalDate());
+            mission.setMissionType(MissionType.valueOf(rs.getString("mission_type")));
+            mission.setCrewOnboard(Optional.ofNullable((Integer) rs.getObject("crew_onboard")));
+            mission.setSuccess(rs.getBoolean("is_success"));
+            mission.setImageFileName(rs.getString("image_file_name"));
+            LaunchSite site = new LaunchSite(rs.getInt("launch_site_id"), rs.getString("site_name"), rs.getString("location"), rs.getString("image_file_name"));
+            mission.setLaunchSite(site);
+            return mission;
+        }, rocketId);
+    }
+
     private Rocket mapRocket(ResultSet rs, int rowNum) throws SQLException {
         Rocket rocket = new Rocket();
         rocket.setRocketId(rs.getInt("rocket_id"));
@@ -33,6 +56,7 @@ public class RocketJdbcRepository implements RocketRepository {
         rocket.setLaunchCapacity(rs.getInt("payload_capacity"));
         rocket.setManufacturer(rs.getString("manufacturer"));
         rocket.setImageFileName(rs.getString("image_file_name"));
+        rocket.setMissions(findMissionsForRocket(rocket.getRocketId())); // eager load
         return rocket;
     }
 
@@ -85,6 +109,7 @@ public class RocketJdbcRepository implements RocketRepository {
 
     @Override
     public void deleteRocketById(int id) {
+        jdbcTemplate.update("DELETE FROM mission_rocket WHERE rocket_id = ?", id);
         jdbcTemplate.update("DELETE FROM rockets WHERE rocket_id = ?", id);
     }
 
@@ -92,5 +117,15 @@ public class RocketJdbcRepository implements RocketRepository {
     public List<Rocket> findRocketsByLaunchCapacityGreaterThan(double capacity) {
         String sql = "SELECT * FROM rockets WHERE payload_capacity > ?";
         return jdbcTemplate.query(sql, this::mapRocket, capacity);
+    }
+
+    @Override
+    public List<Rocket> findRocketsByIds(List<Integer> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        String placeholders = String.join(",", ids.stream().map(id -> "?").toList());
+        String sql = "SELECT * FROM rockets WHERE rocket_id IN (" + placeholders + ")";
+        return jdbcTemplate.query(sql, this::mapRocket, ids.toArray());
     }
 }

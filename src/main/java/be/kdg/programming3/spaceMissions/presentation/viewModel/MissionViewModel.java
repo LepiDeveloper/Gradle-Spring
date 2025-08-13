@@ -1,10 +1,14 @@
 package be.kdg.programming3.spaceMissions.presentation.viewModel;
 
+import be.kdg.programming3.spaceMissions.domain.LaunchSite;
 import be.kdg.programming3.spaceMissions.domain.MissionType;
+import be.kdg.programming3.spaceMissions.domain.Rocket;
 import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class MissionViewModel {
 
@@ -26,6 +30,11 @@ public class MissionViewModel {
 
     @NotNull(message = "Mission type is required")
     private MissionType missionType;
+
+    private Integer launchSite;
+    private List<Integer> rockets;
+    private MultipartFile imageFile; // Uploaded file
+
 
     public MissionViewModel() {}
 
@@ -75,5 +84,29 @@ public class MissionViewModel {
 
     public void setMissionType(MissionType missionType) {
         this.missionType = missionType;
+    }
+
+    public Integer getLaunchSite() {
+        return launchSite;
+    }
+
+    public void setLaunchSite(Integer launchSite) {
+        this.launchSite = launchSite;
+    }
+
+    public List<Integer> getRockets() {
+        return rockets;
+    }
+
+    public void setRockets(List<Integer> rockets) {
+        this.rockets = rockets;
+    }
+
+    public MultipartFile getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
 }

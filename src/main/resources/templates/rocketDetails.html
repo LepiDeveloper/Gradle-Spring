@@ -18,6 +18,13 @@
     <h1 th:text="${rocket.rocketName}"></h1>
     <p>Capacity: <span th:text="${rocket.launchCapacity}"></span> kg</p>
     <p>Manufacturer: <span th:text="${rocket.manufacturer}"></span></p>
+
+    <h3>Missions Using This Rocket</h3>
+    <ul>
+        <li th:each="mission : ${rocket.missions}">
+            <a th:href="@{/missions/{id}(id=${mission.missionId})}" th:text="${mission.missionName}"></a>
+        </li>
+    </ul>
     <!-- Add more details as needed -->
 
     <a th:href="@{/rockets}" class="btn btn-secondary">Back to Rockets</a>

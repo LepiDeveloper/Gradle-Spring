@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Launch Site</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+  <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"> </script>
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+<h1 th:text="#{launchSite.heading}">All Launch Sites</h1>
+
+<div class="container mt-5">
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+    <!-- Loop through the list of launchSite -->
+    <div class="col-12 col-sm-6 col-md-4" th:each="launchSite : ${launchSites}">
+      <div class="card mb-4" style="height: 400px;">
+        <!-- Image for the launchSite -->
+        <img th:src="@{'/' + ${launchSite.imageFileName}}" class="card-img-top" alt="Launch Site Image"/>
+
+        <!-- Rocket details -->
+        <div class="card-body">
+          <h5 class="card-title" th:text="${launchSite.getSiteName()}"></h5>
+          <p class="card-text">
+            Location: <span th:text="${launchSite.getLocation()}"></span><br>
+          </p>
+          <!-- Button for more details -->
+          <a th:href="@{/launchSites/{id}(id=${launchSite.getSiteId()})}" class="btn btn-primary">Details</a>
+
+          <form th:action="@{/launchSites/{id}/delete(id=${launchSite.getSiteId()})}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger btn-sm">
+              <i class="bi bi-trash"></i>
+            </button>
+          </form>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
+</body>
+</html>
