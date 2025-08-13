@@ -1,15 +1,27 @@
 package be.kdg.programming3.spaceMissions.domain;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "launch_sites")
 public class LaunchSite {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int siteId;
+
+    @Column(nullable = false)
     private String siteName;
+
+    @Column(nullable = false)
     private String location;
+
     private String imageFileName;
 
+    @OneToMany(mappedBy = "launchSite", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mission> missions = new ArrayList<Mission>();
 
     // no missions

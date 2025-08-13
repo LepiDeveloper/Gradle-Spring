@@ -32,13 +32,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation ("org.webjars:bootstrap:5.3.3")
     implementation ("org.webjars:webjars-locator:0.52")
     implementation ("org.webjars.npm:bootstrap-icons:1.11.3")
     implementation ("org.springframework.boot:spring-boot-starter-jdbc")
+
     runtimeOnly ("com.h2database:h2")
-
-
+    runtimeOnly("org.postgresql:postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))

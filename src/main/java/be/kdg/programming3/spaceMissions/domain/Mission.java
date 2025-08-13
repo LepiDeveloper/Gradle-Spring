@@ -1,28 +1,56 @@
 package be.kdg.programming3.spaceMissions.domain;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "missions")
 public class Mission {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int missionId;
+
+    @Column(nullable = false, length = 100)
     private String missionName;
+
+    @Column(nullable = false)
     private String missionObjective;
+
+    @Column(nullable = false)
     private LocalDate launchDate;
-    private Optional<Integer> crewOnboard;
+
+    private Integer crewOnboard; ;
+
+    @Column(nullable = false)
     boolean isSuccess;
+
     private String imageFileName;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private MissionType missionType;
+
+    @ManyToOne
+    @JoinColumn(name = "launch_site_id", nullable = false)
     private LaunchSite launchSite;
+
+    @ManyToMany
+    @JoinTable(
+            name = "mission_rocket",
+            joinColumns = @JoinColumn(name = "mission_id"),
+            inverseJoinColumns = @JoinColumn(name = "rocket_id")
+    )
     private List<Rocket> rockets = new ArrayList<>();
 
     // no rockets and launchSites
     public Mission(int missionId, String missionName, String missionObjective, LocalDate launchDate, MissionType missionType,
-                   Optional<Integer> crewOnboard, boolean isSuccess, String imageFileName) {
+                   Integer  crewOnboard, boolean isSuccess, String imageFileName) {
         this.missionId = missionId;
         this.missionName = missionName;
         this.missionObjective = missionObjective;
@@ -35,7 +63,7 @@ public class Mission {
 
     // with rockets and launchSites
     public Mission(int missionId, String missionName, String missionObjective, LocalDate launchDate, MissionType missionType,
-                   Optional<Integer> crewOnboard, boolean isSuccess, String imageFileName, LaunchSite launchSite) {
+                   Integer  crewOnboard, boolean isSuccess, String imageFileName, LaunchSite launchSite) {
         this.missionId = missionId;
         this.missionName = missionName;
         this.missionObjective = missionObjective;
@@ -95,11 +123,11 @@ public class Mission {
     }
 
     public Optional<Integer> getCrewOnboard() {
-        return crewOnboard;
+        return Optional.ofNullable(crewOnboard);
     }
 
     public void setCrewOnboard(Optional<Integer> crewOnboard) {
-        this.crewOnboard = crewOnboard;
+        this.crewOnboard = crewOnboard.orElse(null);
     }
 
     public boolean isSuccess() {
@@ -150,7 +178,7 @@ public class Mission {
 
         return "The mission " + missionName + " under the ID of " + missionId +
                 " was to do the following: " + missionObjective + ". Launched from " + launchSite.getSiteName() +
-                " on " + launchDate + " with a crew of " + crewOnboard.orElse(0) +
+                " on " + launchDate + " with a crew of " + crewOnboard +
                 " as an " + missionType + " mission. Rockets used: " + rocketNames + ".";
     }
 

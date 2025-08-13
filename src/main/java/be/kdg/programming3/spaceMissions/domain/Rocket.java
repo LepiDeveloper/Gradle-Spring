@@ -1,16 +1,29 @@
 package be.kdg.programming3.spaceMissions.domain;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "rockets")
 public class Rocket {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rocketId;
+
+    @Column(nullable = false, length = 100)
     private String rocketName;
+
+    @Column(name = "payload_capacity")
     private double launchCapacity;
+
+    @Column(nullable = false)
     private String manufacturer;
+
     private String imageFileName;
 
+    @ManyToMany(mappedBy = "rockets")
     private List<Mission> missions = new ArrayList<>();
 
     // no missions
