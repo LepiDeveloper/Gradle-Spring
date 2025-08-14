@@ -2,12 +2,14 @@ package be.kdg.programming3.spaceMissions.presentation.controller;
 
 import be.kdg.programming3.spaceMissions.domain.Mission;
 import be.kdg.programming3.spaceMissions.domain.MissionType;
+import be.kdg.programming3.spaceMissions.exceptions.MissionNotFoundException;
 import be.kdg.programming3.spaceMissions.presentation.controller.httpSession.SessionHistory;
 import be.kdg.programming3.spaceMissions.presentation.viewModel.MissionViewModel;
 import be.kdg.programming3.spaceMissions.service.LaunchSiteService;
 import be.kdg.programming3.spaceMissions.service.MissionService;
 import be.kdg.programming3.spaceMissions.service.RocketService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,5 +132,13 @@ public class MissionController {
         return "redirect:/missions";
     }
 
+    @ExceptionHandler(MissionNotFoundException.class)
+    public String handleMissionNotFound(MissionNotFoundException ex, Model model) {
+        logger.error("Mission not found: {}", ex.getMessage());
+        model.addAttribute("errorMessage", ex.getMessage());
+        model.addAttribute("status", HttpStatus.NOT_FOUND.value());
+        model.addAttribute("timestamp", LocalDateTime.now());
+        return "error/generalError";
+    }
 
 }

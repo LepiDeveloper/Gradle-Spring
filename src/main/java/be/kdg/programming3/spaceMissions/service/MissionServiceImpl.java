@@ -1,6 +1,7 @@
 package be.kdg.programming3.spaceMissions.service;
 
 import be.kdg.programming3.spaceMissions.domain.Mission;
+import be.kdg.programming3.spaceMissions.exceptions.MissionNotFoundException;
 import be.kdg.programming3.spaceMissions.repository.MissionRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,7 @@ public class MissionServiceImpl implements MissionService {
     @Override
     public Mission getMissionById(int id) {
         logger.debug("Fetching mission with id {}", id);
-        return missionRepository.findMissionById(id).orElseThrow(() -> new RuntimeException("Mission not found"));
+        return missionRepository.findMissionById(id).orElseThrow(() -> new MissionNotFoundException("Mission with ID " + id + " not found"));
     }
 
     @Override

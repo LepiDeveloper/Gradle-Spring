@@ -1,6 +1,7 @@
 package be.kdg.programming3.spaceMissions.service.servicejpa;
 
 import be.kdg.programming3.spaceMissions.domain.Mission;
+import be.kdg.programming3.spaceMissions.exceptions.MissionNotFoundException;
 import be.kdg.programming3.spaceMissions.repository.springdatajpa.MissionSpringDataRepository;
 import be.kdg.programming3.spaceMissions.service.MissionService;
 import org.springframework.context.annotation.Profile;
@@ -27,7 +28,7 @@ public class MissionServiceSpringDataImpl implements MissionService {
     @Override
     public Mission getMissionById(int id) {
         return missionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Mission not found"));
+                .orElseThrow(() -> new MissionNotFoundException("Mission with ID " + id + " not found"));
     }
 
     @Override

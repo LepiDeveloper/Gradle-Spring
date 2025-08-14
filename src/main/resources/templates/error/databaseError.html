@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Error</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"> </script>
+</head>
+<body>
+<div th:insert="~{fragments/navbar :: navbar}"></div>
+
+<h1>Database Problem</h1>
+<p th:text="${errorMessage}">A database error occurred.</p>
+<p>Status: <span th:text="${status}">500</span></p>
+<p>Time: <span th:text="${timestamp}"></span></p>
+
+<div th:insert="~{fragments/navbar :: footer}"></div>
+</body>
+</html>
