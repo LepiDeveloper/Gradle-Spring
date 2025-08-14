@@ -2,6 +2,7 @@ package be.kdg.programming3.spaceMissions.service;
 
 import be.kdg.programming3.spaceMissions.domain.Mission;
 import be.kdg.programming3.spaceMissions.repository.MissionRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
+@Profile({"collection", "jdbc", "jpa"})
 public class MissionServiceImpl implements MissionService {
 
     private final MissionRepository missionRepository;
