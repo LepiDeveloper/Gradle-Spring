@@ -13,10 +13,11 @@
 
 
 <!-- Form to add a new missions -->
-<h1 th:text="#{add.mission.heading}">Add a New Mission</h1>
+<div class="container mt-4 mb-4">
+  <h1 class="text-start" th:text="#{add.mission.heading}">Add a New Mission</h1>
+</div>
 
 <div class="container mt-5">
-  <h1 class="mb-4" th:text="#{add.mission.heading}">Add a New Mission</h1>
 
   <form th:action="@{/missions/add}" th:object="${mission}" method="post"
         class="needs-validation" novalidate

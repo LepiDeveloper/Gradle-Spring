@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,10 +29,14 @@ public class LaunchSiteJdbcRepository implements LaunchSiteRepository {
 
     private List<Mission> findMissionsForLaunchSite(int siteId) {
         String sql = """
-              SELECT m.*, ls.site_name, ls.location FROM missions m
-                JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id
-                WHERE m.launch_site_id = ?
-    """;
+              SELECT m.mission_id, m.mission_name, m.mission_objective, m.launch_date,
+                         m.mission_type, m.crew_onboard, m.is_success, m.image_file_name,
+                         m.launch_site_id,
+                         ls.site_name, ls.location, ls.image_file_name AS ls_image
+                  FROM missions m
+                  JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id
+                  WHERE m.launch_site_id = ?
+        """;
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Mission mission = new Mission();
             mission.setMissionId(rs.getInt("mission_id"));
@@ -39,13 +44,16 @@ public class LaunchSiteJdbcRepository implements LaunchSiteRepository {
             mission.setMissionObjective(rs.getString("mission_objective"));
             mission.setLaunchDate(rs.getDate("launch_date").toLocalDate());
             mission.setMissionType(MissionType.valueOf(rs.getString("mission_type")));
-            mission.setCrewOnboard(Optional.ofNullable((Integer) rs.getObject("crew_onboard")));
+
+            // Handle nullable crew_onboard properly
+            Integer crewOnboard = (Integer) rs.getObject("crew_onboard");
+            mission.setCrewOnboard(Optional.ofNullable(crewOnboard));
+
             mission.setSuccess(rs.getBoolean("is_success"));
             mission.setImageFileName(rs.getString("image_file_name"));
             return mission;
         }, siteId);
     }
-
 
     private LaunchSite mapLaunchSite(ResultSet rs, int rowNum) throws SQLException {
         LaunchSite launchSite = new LaunchSite();
@@ -66,7 +74,12 @@ public class LaunchSiteJdbcRepository implements LaunchSiteRepository {
     @Override
     public Optional<LaunchSite> findLaunchSiteById(int id) {
         String sql = "SELECT * FROM launch_sites WHERE launch_site_id = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, this::mapLaunchSite, id));
+        try {
+            LaunchSite launchSite = jdbcTemplate.queryForObject(sql, this::mapLaunchSite, id);
+            return Optional.ofNullable(launchSite);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
 
     }
 
@@ -78,8 +91,9 @@ public class LaunchSiteJdbcRepository implements LaunchSiteRepository {
 
         Map<String, Object> params = Map.of(
                 "site_name", launchSite.getSiteName(),
-                "location", launchSite.getLocation()
-       );
+                "location", launchSite.getLocation(),
+                "image_file_name", launchSite.getImageFileName() != null ? launchSite.getImageFileName() : "launchSitePlaceholder.png"
+        );
 
         int id = insert.executeAndReturnKey(params).intValue();
         launchSite.setSiteId(id);

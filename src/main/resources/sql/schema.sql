@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS mission_rocket;
 DROP TABLE IF EXISTS missions;
 DROP TABLE IF EXISTS rockets;
 DROP TABLE IF EXISTS launch_sites;
@@ -12,7 +13,7 @@ CREATE TABLE launch_sites (
 CREATE TABLE rockets (
                          rocket_id INT AUTO_INCREMENT PRIMARY KEY,
                          rocket_name VARCHAR(100) NOT NULL,
-                         payload_capacity INT NOT NULL,
+                         payload_capacity DOUBLE PRECISION NOT NULL,
                          manufacturer VARCHAR(100),
                          image_file_name VARCHAR(100)
 );

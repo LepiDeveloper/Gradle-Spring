@@ -11,7 +11,7 @@
 <div th:insert="~{fragments/navbar :: navbar}"></div>
 
 
-<div class="container my-5">
+<div class="container my-5" style="background-color: ">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
 
     <div class="col-md-4 mb-4">
@@ -19,7 +19,7 @@
         <img th:src="@{/missionPlaceholder.png}" class="card-img-top" alt="Mission Image"/>
 
         <div class="card-body">
-          <h5 class="card-title">Missions</h5>
+          <h5 class="card-title" th:text="#{index.missions}">Missions</h5>
           <p class="card-text">View and manage all the space missions here.</p>
 
           <a href="/missions" class="btn btn-primary">View Missions</a>
@@ -32,7 +32,7 @@
         <img th:src="@{/rocketPlaceholder.png}" class="card-img-top" alt="Rocket Image"/>
 
         <div class="card-body">
-          <h5 class="card-title">Rockets</h5>
+          <h5 class="card-title" th:text="#{index.rockets}">Rockets</h5>
           <p class="card-text">View and manage all the rockets here.</p>
 
           <a href="/rockets" class="btn btn-primary">View Rockets</a>
@@ -45,23 +45,10 @@
         <img th:src="@{/launchSitePlaceholder.png}" class="card-img-top" alt="Placeholder Image"/>
 
         <div class="card-body">
-          <h5 class="card-title">Add Missions</h5>
-          <p class="card-text">Add new missions here.</p>
+          <h5 class="card-title" th:text="#{index.launchSites}">Launch Sites</h5>
+          <p class="card-text">View and manage all the launch sites here.</p>
 
-          <a href="/missions/add" class="btn btn-primary">Add Missions</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-4 mb-4">
-      <div class="card mb-4" style="height: 400px;">
-        <img th:src="@{/launchSitePlaceholder.png}" class="card-img-top" alt="Placeholder Image"/>
-
-        <div class="card-body">
-          <h5 class="card-title">Add Rockets</h5>
-          <p class="card-text">Add new rockets here.</p>
-
-          <a href="/rockets/add" class="btn btn-primary">Add Rockets</a>
+          <a href="/launchSites" class="btn btn-primary">Launch Sites</a>
         </div>
       </div>
     </div>

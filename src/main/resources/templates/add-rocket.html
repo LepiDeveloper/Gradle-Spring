@@ -10,9 +10,11 @@
 <body>
 <div th:insert="~{fragments/navbar :: navbar}"></div>
 
-<h1 th:text="#{add.rocket.heading}">Add a New Rocket</h1>
+<div class="container mt-4 mb-4">
+  <h1 class="text-start" th:text="#{add.rocket.heading}">Add a New Rocket</h1>
+</div>
 
-<div class="container">
+<div class="container mt-5">
   <form th:action="@{/rockets/add}" th:object="${rocket}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
 
     <div class="mb-3">

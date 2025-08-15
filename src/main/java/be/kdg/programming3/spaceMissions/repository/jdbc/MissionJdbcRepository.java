@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,12 +32,12 @@ public class MissionJdbcRepository implements MissionRepository {
         SELECT r.* FROM rockets r
         JOIN mission_rocket mr ON r.rocket_id = mr.rocket_id
         WHERE mr.mission_id = ?
-    """;
+        """;
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Rocket rocket = new Rocket();
             rocket.setRocketId(rs.getInt("rocket_id"));
             rocket.setRocketName(rs.getString("rocket_name"));
-            rocket.setLaunchCapacity(rs.getInt("payload_capacity"));
+            rocket.setLaunchCapacity(rs.getDouble("payload_capacity"));
             rocket.setManufacturer(rs.getString("manufacturer"));
             rocket.setImageFileName(rs.getString("image_file_name"));
             return rocket;
@@ -50,25 +51,54 @@ public class MissionJdbcRepository implements MissionRepository {
         mission.setMissionObjective(rs.getString("mission_objective"));
         mission.setLaunchDate(rs.getDate("launch_date").toLocalDate());
         mission.setMissionType(MissionType.valueOf(rs.getString("mission_type")));
-        mission.setCrewOnboard(Optional.ofNullable((Integer) rs.getObject("crew_onboard")));
+
+        Integer crewOnboard = (Integer) rs.getObject("crew_onboard");
+        mission.setCrewOnboard(Optional.ofNullable(crewOnboard));
+
         mission.setSuccess(rs.getBoolean("is_success"));
         mission.setImageFileName(rs.getString("image_file_name"));
-        LaunchSite site = new LaunchSite(rs.getInt("launch_site_id"), rs.getString("site_name"), rs.getString("location"), rs.getString("image_file_name"));
+
+        LaunchSite site = new LaunchSite(
+                rs.getInt("launch_site_id"),
+                rs.getString("site_name"),
+                rs.getString("location"),
+                rs.getString("image_file_name")
+        );
         mission.setLaunchSite(site);
-        mission.setRockets(findRocketsForMission(mission.getMissionId())); // eager load
+        mission.setRockets(findRocketsForMission(mission.getMissionId()));
         return mission;
     }
 
     @Override
     public List<Mission> findAllMissions() {
-        String sql = "SELECT m.*, ls.site_name, ls.location FROM missions m JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id";
+        String sql = """
+            SELECT m.mission_id, m.mission_name, m.mission_objective, m.launch_date,
+                   m.mission_type, m.crew_onboard, m.is_success, m.image_file_name,
+                   m.launch_site_id,
+                   ls.site_name, ls.location, ls.image_file_name AS ls_image
+            FROM missions m
+            JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id
+        """;
         return jdbcTemplate.query(sql, this::mapMission);
     }
 
     @Override
     public Optional<Mission> findMissionById(int id) {
-        String sql = "SELECT m.*, ls.site_name, ls.location FROM missions m JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id WHERE mission_id = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, this::mapMission, id));
+        String sql = """
+            SELECT m.mission_id, m.mission_name, m.mission_objective, m.launch_date,
+                   m.mission_type, m.crew_onboard, m.is_success, m.image_file_name,
+                   m.launch_site_id,
+                   ls.site_name, ls.location, ls.image_file_name AS ls_image
+            FROM missions m
+            JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id
+            WHERE m.mission_id = ?
+        """;
+        try {
+            Mission mission = jdbcTemplate.queryForObject(sql, this::mapMission, id);
+            return Optional.ofNullable(mission);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -91,7 +121,6 @@ public class MissionJdbcRepository implements MissionRepository {
         int id = insert.executeAndReturnKey(params).intValue();
         mission.setMissionId(id);
 
-        // Insert cross-table rows
         for (Rocket rocket : mission.getRockets()) {
             jdbcTemplate.update("INSERT INTO mission_rocket (mission_id, rocket_id) VALUES (?, ?)",
                     mission.getMissionId(), rocket.getRocketId());
@@ -103,7 +132,7 @@ public class MissionJdbcRepository implements MissionRepository {
     @Override
     public Mission updateMission(Mission mission) {
         String sql = """
-                UPDATE missions SET mission_name=?, mission_objective=?, launch_date=?, mission_type=?, 
+                UPDATE missions SET mission_name=?, mission_objective=?, launch_date=?, mission_type=?,
                 crew_onboard=?, is_success=?, image_file_name=?, launch_site_id=? WHERE mission_id=?
                 """;
         jdbcTemplate.update(sql,
@@ -135,9 +164,13 @@ public class MissionJdbcRepository implements MissionRepository {
     @Override
     public List<Mission> findMissionByMissionType(String missionType) {
         String sql = """
-            SELECT m.*, ls.site_name, ls.location FROM missions m 
-            JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id 
-            WHERE LOWER(mission_type) = LOWER(?)
+            SELECT m.mission_id, m.mission_name, m.mission_objective, m.launch_date,
+                   m.mission_type, m.crew_onboard, m.is_success, m.image_file_name,
+                   m.launch_site_id,
+                   ls.site_name, ls.location, ls.image_file_name AS ls_image
+            FROM missions m
+            JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id
+            WHERE LOWER(m.mission_type) = LOWER(?)
         """;
         return jdbcTemplate.query(sql, this::mapMission, missionType);
     }
@@ -145,10 +178,15 @@ public class MissionJdbcRepository implements MissionRepository {
     @Override
     public List<Mission> findMissionByLaunchSiteName(String siteName) {
         String sql = """
-            SELECT m.*, ls.site_name, ls.location FROM missions m 
-            JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id 
+            SELECT m.mission_id, m.mission_name, m.mission_objective, m.launch_date,
+                   m.mission_type, m.crew_onboard, m.is_success, m.image_file_name,
+                   m.launch_site_id,
+                   ls.site_name, ls.location, ls.image_file_name AS ls_image
+            FROM missions m
+            JOIN launch_sites ls ON m.launch_site_id = ls.launch_site_id
             WHERE LOWER(ls.site_name) LIKE LOWER(?)
         """;
         return jdbcTemplate.query(sql, this::mapMission, "%" + siteName + "%");
     }
+
 }

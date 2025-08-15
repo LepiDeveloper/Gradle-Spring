@@ -11,6 +11,7 @@ public class LaunchSite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "launch_site_id")
     private int siteId;
 
     @Column(nullable = false)

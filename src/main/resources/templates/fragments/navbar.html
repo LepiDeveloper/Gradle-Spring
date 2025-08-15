@@ -3,50 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Fragments</title>
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+    <link rel="stylesheet" th:href="@{/webjars/font-awesome/6.4.2/css/all.min.css}"/>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
     <script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 </head>
 <body>
 
 <!-- Navbar Fragment -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark" xmlns:th="http://www.thymeleaf.org" th:fragment="navbar">
+<nav class="navbar navbar-expand-lg" style="background-color: #003F66" xmlns:th="http://www.thymeleaf.org" th:fragment="navbar">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Space Missions</a>
+        <a class="navbar-brand" th:href="@{/}">
+            <img th:src="@{/logo.png}" alt="Logo" style="height: 40px;">
+        </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{/missions}">Missions</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/rockets}">Rockets</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/launchSites}">Launch Site</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/history}">History</a></li>
+                <li class="nav-item"><a class="nav-link text-info fw-bold fs-2" th:text="#{index.missions}" th:href="@{/missions}">Missions</a></li>
+                <li class="nav-item"><a class="nav-link text-info fw-bold fs-2" th:text="#{index.rockets}" th:href="@{/rockets}">Rockets</a></li>
+                <li class="nav-item"><a class="nav-link text-info fw-bold fs-2" th:text="#{index.launchSites}" th:href="@{/launchSites}">Launch Site</a></li>
             </ul>
+        </div>
+
+        <div class="button me-3">
+            <a class="nav-link text-info" th:href="@{/history}"> History </a>
         </div>
 
         <div class="dropdown me-3">
-            <button class="btn btn-link dropdown-toggle" type="button" id="dropExports" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-download"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                <li>
-                    <a class="dropdown-item" th:href="@{/export/missions}">
-                        <i class="bi-file-earmark-text"></i> Export Missions (with Launch Site & Rockets)
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" th:href="@{/export/rockets}">
-                        <i class="bi-diagram-3"></i> Export Rockets (with Missions)
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" th:href="@{/export/launchsites}">
-                        <i class="bi-diagram-3"></i> Export Launch Sites
-                    </a>
-                </li>
-            </ul>
+            <select class="form-select"
+                    style="background-color: #ADD8E6; border-color: #87CEEB; color: #003F66; max-width: 100px;"
+                    onchange="if (this.value) window.location.href=this.value;">
+                <option value="">Export...</option>
+                <option th:value="@{/export/missions}">Export Missions (with Launch Site & Rockets)</option>
+                <option th:value="@{/export/rockets}">Export Rockets (with Missions)</option>
+                <option th:value="@{/export/launchsites}">Export Launch Sites</option>
+            </select>
         </div>
 
         <form action="#" method="get">
-            <select name="lang" onchange="this.form.submit()">
+            <select name="lang" onchange="this.form.submit()" class="form-select"
+                    style="background-color: #ADD8E6; border-color: #87CEEB; color: #003F66; max-width: 100px;">
                 <option value="en" th:selected="${#locale.language == 'en'}">English</option>
                 <option value="bs" th:selected="${#locale.language == 'bs'}">Bosnian</option>
             </select>
@@ -63,8 +58,5 @@
         </div>
     </footer>
 </div>
-
-
-
 </body>
 </html>
