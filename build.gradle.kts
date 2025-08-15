@@ -37,6 +37,7 @@ dependencies {
     implementation ("org.webjars:webjars-locator:0.52")
     implementation ("org.webjars.npm:bootstrap-icons:1.11.3")
     implementation ("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation ("com.google.code.gson:gson:2.10.1")
 
     runtimeOnly ("com.h2database:h2")
     runtimeOnly("org.postgresql:postgresql")

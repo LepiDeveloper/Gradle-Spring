@@ -22,6 +22,29 @@
             </ul>
         </div>
 
+        <div class="dropdown me-3">
+            <button class="btn btn-link dropdown-toggle" type="button" id="dropExports" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-download"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <li>
+                    <a class="dropdown-item" th:href="@{/export/missions}">
+                        <i class="bi-file-earmark-text"></i> Export Missions (with Launch Site & Rockets)
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" th:href="@{/export/rockets}">
+                        <i class="bi-diagram-3"></i> Export Rockets (with Missions)
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" th:href="@{/export/launchsites}">
+                        <i class="bi-diagram-3"></i> Export Launch Sites
+                    </a>
+                </li>
+            </ul>
+        </div>
+
         <form action="#" method="get">
             <select name="lang" onchange="this.form.submit()">
                 <option value="en" th:selected="${#locale.language == 'en'}">English</option>
